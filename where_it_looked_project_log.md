@@ -98,16 +98,22 @@ Each work order is self-contained and contains:
 | D4 | 2026-06-19 | Session 1 skeleton accepted: single self-contained index.html, overlap computed 0/3, top-threes H1-H2-H3 / H8-H9-H10 / H6-H7-H11, boundary toggle live. | Met definition of done; deviations minor and in-family. |
 | D5 | 2026-06-19 | Assistant names must NOT telegraph their ranking rule. Move off Concierge/Scout/Critic to neutral assistant-style names (e.g. Atlas/Vera/Pilot). | Archetype names leak the hidden boundary and spoil the toggle reveal, undercutting the #28 argument. A/B/C rejected as too sterile. |
 | D6 | 2026-06-19 | Log now lives in the repo and is maintained by Claude Code, applying exact Log-Updates text pre-written by the chat architect in each work order. | Removes manual paste step. Architect still authors all log content; Code is scribe only, preserving the architect/implementer split. |
+| D7 | 2026-06-22 | Final assistant names locked: Atlas / Vera / Pilot, mapped by boundary label (Atlas = partner-only, Vera = full-index, Pilot = editorial selection). Closes Q7. | Neutral, non-telegraphing per D5; mapped to the stable boundary label, not the old placeholder names. |
+| D8 | 2026-06-22 | Boundary slider attaches to the partner-only card (Atlas). Widening admits non-partner hotels in ascending id order from 5 up to the full market of 12; Atlas's top-three and the headline overlap recompute live while its blurb/confidence stay constant. | Makes #28's "where did it stop looking" physical: the slice is one lever, the rule another; the slider isolates the slice. |
+| D9 | 2026-06-22 | Display face exposed as a single swappable CSS variable `--display-face` at index.html:9, used by h1, .divergence .num, .card h2, .res-rank. | Makes face-lock a one-line change. |
+| D10 | 2026-06-22 | Q6 closed by delegation to the architect. Display face locked to a self-contained literary serif stack: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif. Applied in Session 3 (one-line swap at index.html:9). | No webfont dependency, preserves file:// self-containment; warmer/editorial vs bare Georgia, Georgia as guaranteed fallback. Re-swappable if a real divergencelog house face is later supplied. |
+| D11 | 2026-06-22 | Atlas's slider lives inside the "show the boundary" reveal (not always-visible), same arc as Vera/Pilot. Accepted. | Keeps the default screen to three confident answers + the divergence number; mechanism revealed on inspection, in-family with #28's anti-spectacle stance. |
+| D12 | 2026-06-22 | Slider re-sorts Atlas only at full market (slider=12); positions 5–11 stay H1,H2,H3 because H12 is the only non-partner whose recScore cracks the top three. Accepted as honest/correct for Session 2; intermediate-shift tuning is the Session 3 lead task. | The interaction must feel alive across the drag, not only at the extreme; the fix is dataset tuning, reserved for the buffer session. |
 
 ---
 
 ## 7. State Snapshot (rewrite each session — source of truth)
 
-- **Phase:** Session 1 complete, accepted. Working skeleton renders end-to-end.
-- **Repo:** Local only, `git init` in `d:\WinProjects\WIL`. Single `index.html` at root plus this log; Session 1 code commit `922dfec`. No GitHub remote yet (deferred to deploy).
-- **Last session:** Session 1 — skeleton built and accepted. Overlap 0/3 computed (not hardcoded); top-threes verified H1-H2-H3 / H8-H9-H10 / H6-H7-H11; boundary toggle with live market-slice counts; cream (#f6f1e7) + Georgia styling; illustrative-data line present.
-- **Next:** Session 2 — boundary slider (live re-sort of one card), final card + headline copy, per-assistant blurbs, rename assistants per D5, confirm/lock house face per Q6, mobile readability, divergencelog polish.
-- **Blocked on:** nothing blocks the Session 2 build. Before deploy: subdomain (Q1) and repo home (Q2). Before Session 2 face-lock: need the actual divergencelog headline/display face from You (Q6).
+- **Phase:** Session 2 built and accepted as a faithful, correct implementation. Publishable pending one Session-3 nudge (the slider only re-sorts at full market — see Next). Slider + polish are in on top of the accepted Session 1 skeleton.
+- **Repo:** Local only, `git init` in `d:\WinProjects\WIL`. Single `index.html` at root plus this log. Session 1 commit `922dfec`; Session 2 build commit `180a77e`; this log-close commit `<FILL: log commit hash>`. No GitHub remote yet (deferred to deploy).
+- **Last session:** Session 2 — boundary slider on the partner-slice card (Atlas) re-sorts its top-three and recomputes headline overlap live; assistants renamed Atlas / Vera / Pilot (D7); per-assistant blurbs; illustrative-model line locked; cream/Georgia polish with the display face exposed as swappable `--display-face` (D9); mobile pass to ~360px. Verified Atlas = H1,H2,H3 at slider min and H1,H12,H2 at full market; overlap stays 0 of 3; four console.asserts pass. Build commit `180a77e`.
+- **Next:** Session 3 (buffer) — (1) **dataset shift-timing fix**: raise a mid-range non-partner's recScore so an intermediate slider position also flips Atlas's top-three (so dragging feels alive, not dead until the last stop), ideally so the headline overlap also ticks 0→1 at some width for a numeric payoff; (2) apply the locked display face (D10) — one-line swap at index.html:9; (3) consider restoring the `walk` field as the user-stated preference no ranker honors; (4) deploy to subdomain (Q1), repo home (Q2), first-comment link prep.
+- **Blocked on:** nothing blocks Session 3. Before deploy: subdomain (Q1) and repo home (Q2).
 
 ---
 
@@ -118,10 +124,10 @@ Each work order is self-contained and contains:
 | Q1 | Subdomain name: `hotels.divergencelog.com` vs `whereitlooked.divergencelog.com` (ties to post title) vs other | Open | You |
 | Q2 | Repo: new repo, or subfolder of an existing divergencelog repo? | Open | You |
 | Q3 | Fixed query — "Lisbon, 2 nights, walkable, mid-range" placeholder; keep or change? | Tentative | You |
-| Q4 | Three assistant cards confirmed (matches the rhetorical "three options")? | Confirmed: 3 (Concierge/Scout/Critic were placeholders; to be renamed per D5) | You |
+| Q4 | Three assistant cards confirmed (matches the rhetorical "three options")? | Confirmed: 3; renamed Atlas / Vera / Pilot per D7 | You |
 | Q5 | Does the post #28 opener reflect a real booking moment? Post and demo ship together. | Open | You |
-| Q6 | What headline/display face do existing divergencelog cards use? Needed so Session 2 matches rather than approximates the house style. | Open | You |
-| Q7 | Final assistant names — pick three neutral, non-telegraphing names (D5). Atlas/Vera/Pilot suggested. | Open | You |
+| Q6 | What headline/display face do existing divergencelog cards use? | Closed — architect-picked self-contained literary serif stack (D10); re-swappable if a real house face is supplied | You |
+| Q7 | Final assistant names — three neutral, non-telegraphing names (D5). | Closed — Atlas / Vera / Pilot (D7) | You |
 
 ---
 
@@ -138,3 +144,17 @@ Each work order is self-contained and contains:
 **Architect decisions this session:** Rename assistants off archetypes (D5). Hold Georgia until house face confirmed (Q6). Keep working headline copy ("Three assistants. One question. Three different 'best' answers."). Log moves into the repo, maintained by Code going forward (D6). Advance to Session 2.
 
 **Open for You before / during Session 2:** Q6 (house display face) and Q7 (final assistant names). Neither blocks the build starting.
+
+### Session 2 — slider + polish (2026-06-22)
+
+**Built:** Boundary slider on the partner-slice card (Atlas), range 5→12 (8 stops); the 5 partner hotels (H1–H5) always visible, non-partners admitted in ascending id order (H6→H12). On change, Atlas's visible set → `rank` → top-three and the headline overlap recompute live; Atlas's blurb/confidence held constant. Slider lives inside the "show the boundary" reveal, same arc as Vera/Pilot (D11). Assistants renamed Atlas / Vera / Pilot by boundary label (D7). Three distinct per-assistant blurbs replacing the position-reused placeholders; `.tone` renamed `.blurb`, archetype character-descriptions removed, dead CSS (`counter-reset`, `.res-blurb`) cleaned. Illustrative-model line and headline copy locked. Polish kept in the cream `#f6f1e7` system; display face exposed as `--display-face` at index.html:9, used by h1, .divergence .num, .card h2, .res-rank. Mobile: single-column at 760px, 28px slider thumb on touch, type scaled and legible to ~360px, no horizontal scroll.
+
+**Verified:** Atlas at slider min (5) = H1,H2,H3 (Session-1 baseline). Atlas at full market (12) = H1,H12,H2 (H12, recScore 94, enters and outranks H2 at 92; H3 drops to 4th). Overlap via `computeOverlap` = 0 of 3 at every slider position (H1/H12/H2 never intersect Vera {H8,H9,H10} or Pilot {H6,H7,H11}); never hardcoded. Four console.asserts pass: Atlas@5 → "H1,H2,H3"; Atlas@12 → "H1,H12,H2"; Vera|Pilot → "H8,H9,H10 | H6,H7,H11"; initial overlap === 0. Build commit `180a77e`.
+
+**Known issue → Session 3:** slider changes Atlas's top-three only at the final stop (12); positions 5–11 yield H1,H2,H3 because H12 is the only non-partner whose recScore cracks the top three. Honest/correct as built; the fix (raise a mid-range non-partner's recScore for an intermediate shift, ideally also nudging overlap 0→1) is dataset tuning, Session 3 lead task.
+
+**Deviations (architect-reviewed):** (1) Slider placed inside the boundary reveal rather than always-visible — accepted (D11). (2) `.tone`→`.blurb` rename, archetype character-descriptions removed, dead CSS cleaned — accepted, aligns with D5. (3) `walk` field removed from hotel data as unused — noted; reconsider restoring in the Session 3 dataset pass as the user-stated "walkable" preference no ranker honors.
+
+**Architect decisions this session:** Q6 closed by delegation — display face locked to a self-contained literary serif stack (D10), applied in Session 3. Q7 closed — Atlas / Vera / Pilot (D7). Session 2 accepted; publishable gated only on the Session 3 shift-timing nudge.
+
+**Open for You:** deploy questions Q1 (subdomain) and Q2 (repo home).

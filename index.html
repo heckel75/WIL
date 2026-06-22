@@ -10,7 +10,7 @@
     --ink: #1f1b16;
     --ink-soft: #4a443b;
     --rule: #d8cfbe;
-    --serif: Georgia, "Times New Roman", serif;
+    --display-face: Georgia, serif;   /* swap face here — one line */
     --sans: "Helvetica Neue", Arial, sans-serif;
   }
   * { box-sizing: border-box; }
@@ -28,19 +28,15 @@
     padding: 56px 28px 80px;
   }
   .query {
-    font-family: var(--sans);
     font-size: 0.82rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-soft);
     margin: 0 0 6px;
   }
-  .query strong {
-    color: var(--ink);
-    font-weight: 600;
-  }
+  .query strong { color: var(--ink); font-weight: 600; }
   h1 {
-    font-family: var(--serif);
+    font-family: var(--display-face);
     font-weight: 400;
     font-size: 2.6rem;
     line-height: 1.12;
@@ -53,11 +49,6 @@
     padding: 20px 0;
     margin: 0 0 40px;
   }
-  .divergence .num {
-    font-family: var(--serif);
-    font-size: 2.1rem;
-    color: var(--ink);
-  }
   .divergence .label {
     display: block;
     font-size: 0.82rem;
@@ -66,9 +57,12 @@
     color: var(--ink-soft);
     margin-bottom: 4px;
   }
-  .controls {
-    margin: 0 0 32px;
+  .divergence .num {
+    font-family: var(--display-face);
+    font-size: 2.1rem;
+    color: var(--ink);
   }
+  .controls { margin: 0 0 32px; }
   button.toggle {
     font-family: var(--sans);
     font-size: 0.85rem;
@@ -88,30 +82,26 @@
     background: var(--rule);
     border: 1px solid var(--rule);
   }
-  .card {
-    background: var(--cream);
-    padding: 24px 22px 26px;
-  }
+  .card { background: var(--cream); padding: 24px 22px 26px; }
   .card h2 {
-    font-family: var(--serif);
+    font-family: var(--display-face);
     font-weight: 400;
     font-size: 1.4rem;
-    margin: 0 0 2px;
+    margin: 0 0 4px;
   }
-  .card .tone {
-    font-size: 0.8rem;
+  .card .blurb {
+    font-size: 0.88rem;
     color: var(--ink-soft);
     font-style: italic;
     margin: 0 0 18px;
+    line-height: 1.45;
   }
   ol.results {
     list-style: none;
     margin: 0;
     padding: 0;
-    counter-reset: rank;
   }
   ol.results li {
-    counter-increment: rank;
     padding: 14px 0;
     border-top: 1px solid var(--rule);
   }
@@ -122,24 +112,16 @@
     gap: 8px;
   }
   .res-rank {
-    font-family: var(--serif);
+    font-family: var(--display-face);
     color: var(--ink-soft);
     font-size: 0.95rem;
     min-width: 1.1em;
   }
-  .res-name {
-    font-weight: 600;
-    font-size: 1.02rem;
-  }
+  .res-name { font-weight: 600; font-size: 1.02rem; }
   .res-meta {
     font-size: 0.82rem;
     color: var(--ink-soft);
-    margin: 2px 0 4px 1.9em;
-  }
-  .res-blurb {
-    font-size: 0.86rem;
-    color: var(--ink);
-    margin: 0 0 0 1.9em;
+    margin: 2px 0 0 1.9em;
   }
   .boundary {
     margin-top: 20px;
@@ -150,17 +132,86 @@
     display: none;
   }
   .boundary.show { display: block; }
-  .boundary .line { margin: 0 0 3px; }
+  .boundary .line { margin: 0 0 4px; }
   .boundary .line span { color: var(--ink); font-weight: 600; }
+  /* Atlas boundary slider */
+  .slider-wrap { margin: 6px 0 4px; }
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+    margin: 0;
+    padding: 0;
+  }
+  input[type="range"]::-webkit-slider-runnable-track {
+    background: var(--rule);
+    height: 2px;
+    border-radius: 0;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--ink);
+    margin-top: -8px;
+    border: none;
+  }
+  input[type="range"]::-moz-range-track {
+    background: var(--rule);
+    height: 2px;
+    border: none;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--ink);
+    border: none;
+  }
+  input[type="range"]:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  .slider-ticks {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    margin-top: 5px;
+    letter-spacing: 0.02em;
+  }
+  .slider-wrap + .line { margin-top: 10px; }
   .note {
     margin: 44px 0 0;
     font-size: 0.8rem;
     color: var(--ink-soft);
     max-width: 60ch;
+    line-height: 1.6;
   }
   @media (max-width: 760px) {
+    .wrap { padding: 36px 20px 60px; }
+    h1 { font-size: 2rem; max-width: none; }
+    .divergence .num { font-size: 1.8rem; }
     .cards { grid-template-columns: 1fr; }
-    h1 { font-size: 2.1rem; }
+    input[type="range"]::-webkit-slider-thumb {
+      width: 28px;
+      height: 28px;
+      margin-top: -13px;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 28px;
+      height: 28px;
+    }
+  }
+  @media (max-width: 400px) {
+    h1 { font-size: 1.7rem; }
+    .divergence .num { font-size: 1.6rem; }
   }
 </style>
 </head>
@@ -188,120 +239,144 @@
 <script>
 // ---- Data: illustrative model. Invented hotels; not real OTA data. ----
 const HOTELS = [
-  { id:"H1",  name:"Casa Aurelia",            neighborhood:"Alfama",         price:165, rating:4.3, walk:88, partner:true,  editorial:true,  recScore:95 },
-  { id:"H2",  name:"The Tram House",          neighborhood:"Baixa",          price:158, rating:4.2, walk:92, partner:true,  editorial:false, recScore:92 },
-  { id:"H3",  name:"Pensão Marquês",          neighborhood:"Chiado",         price:172, rating:4.4, walk:90, partner:true,  editorial:false, recScore:90 },
-  { id:"H4",  name:"Hotel Lumiar Velho",      neighborhood:"Graça",          price:135, rating:4.1, walk:79, partner:true,  editorial:true,  recScore:70 },
-  { id:"H5",  name:"Rossio Rooms",            neighborhood:"Baixa",          price:128, rating:4.0, walk:91, partner:true,  editorial:false, recScore:64 },
-  { id:"H6",  name:"Miradouro Suites",        neighborhood:"Graça",          price:149, rating:4.8, walk:85, partner:false, editorial:true,  recScore:85 },
-  { id:"H7",  name:"Alfama Quiet House",      neighborhood:"Alfama",         price:142, rating:4.7, walk:87, partner:false, editorial:true,  recScore:81 },
-  { id:"H8",  name:"Bica Budget Stay",        neighborhood:"Bairro Alto",    price:92,  rating:4.0, walk:84, partner:false, editorial:false, recScore:60 },
-  { id:"H9",  name:"Intendente Inn",          neighborhood:"Intendente",     price:98,  rating:3.9, walk:76, partner:false, editorial:false, recScore:55 },
-  { id:"H10", name:"Anjos Apartments",        neighborhood:"Anjos",          price:104, rating:4.1, walk:80, partner:false, editorial:false, recScore:67 },
-  { id:"H11", name:"Príncipe Real Townhouse", neighborhood:"Príncipe Real",  price:176, rating:4.7, walk:83, partner:false, editorial:true,  recScore:79 },
-  { id:"H12", name:"Cais Garden Hotel",       neighborhood:"Cais do Sodré",  price:119, rating:4.4, walk:88, partner:false, editorial:true,  recScore:94 }
+  { id:"H1",  name:"Casa Aurelia",            neighborhood:"Alfama",        price:165, rating:4.3, partner:true,  editorial:true,  recScore:95 },
+  { id:"H2",  name:"The Tram House",          neighborhood:"Baixa",         price:158, rating:4.2, partner:true,  editorial:false, recScore:92 },
+  { id:"H3",  name:"Pensão Marquês",          neighborhood:"Chiado",        price:172, rating:4.4, partner:true,  editorial:false, recScore:90 },
+  { id:"H4",  name:"Hotel Lumiar Velho",      neighborhood:"Graça",         price:135, rating:4.1, partner:true,  editorial:true,  recScore:70 },
+  { id:"H5",  name:"Rossio Rooms",            neighborhood:"Baixa",         price:128, rating:4.0, partner:true,  editorial:false, recScore:64 },
+  { id:"H6",  name:"Miradouro Suites",        neighborhood:"Graça",         price:149, rating:4.8, partner:false, editorial:true,  recScore:85 },
+  { id:"H7",  name:"Alfama Quiet House",      neighborhood:"Alfama",        price:142, rating:4.7, partner:false, editorial:true,  recScore:81 },
+  { id:"H8",  name:"Bica Budget Stay",        neighborhood:"Bairro Alto",   price:92,  rating:4.0, partner:false, editorial:false, recScore:60 },
+  { id:"H9",  name:"Intendente Inn",          neighborhood:"Intendente",    price:98,  rating:3.9, partner:false, editorial:false, recScore:55 },
+  { id:"H10", name:"Anjos Apartments",        neighborhood:"Anjos",         price:104, rating:4.1, partner:false, editorial:false, recScore:67 },
+  { id:"H11", name:"Príncipe Real Townhouse", neighborhood:"Príncipe Real", price:176, rating:4.7, partner:false, editorial:true,  recScore:79 },
+  { id:"H12", name:"Cais Garden Hotel",       neighborhood:"Cais do Sodré", price:119, rating:4.4, partner:false, editorial:true,  recScore:94 }
 ];
 
-// ---- Assistant definitions: each is a visible-set filter + a ranking rule. ----
-// The lists are NOT hardcoded — they are computed from the data below.
-const ASSISTANTS = [
-  {
-    key: "concierge",
-    name: "Concierge",
-    tone: "Warm, certain, eager to please.",
-    sliceLabel: "partner hotels only",
-    ruleLabel: "recommended for you",
-    visible: h => h.partner === true,
-    rank: (a, b) => (b.recScore - a.recScore) || (a.price - b.price)
-  },
-  {
-    key: "scout",
-    name: "Scout",
-    tone: "Brisk, value-first, no fuss.",
-    sliceLabel: "full index",
-    ruleLabel: "lowest price",
-    visible: () => true,
-    rank: (a, b) => (a.price - b.price) || (b.rating - a.rating)
-  },
-  {
-    key: "critic",
-    name: "Critic",
-    tone: "Discerning, assured, a little superior.",
-    sliceLabel: "editorial selection",
-    ruleLabel: "highest rating",
-    visible: h => h.editorial === true,
-    rank: (a, b) => (b.rating - a.rating) || (a.price - b.price)
-  }
-];
+// ---- Ranking rules (pure functions) ----
+const ATLAS_RANK = (a, b) => (b.recScore - a.recScore) || (a.price - b.price);
+const VERA_RANK  = (a, b) => (a.price - b.price)       || (b.rating - a.rating);
+const PILOT_RANK = (a, b) => (b.rating - a.rating)     || (a.price - b.price);
 
-// Placeholder confident blurbs (final copy: Session 2). Tone stays certain.
-const BLURBS = [
-  "Right in the heart of it — our top pick for the walk.",
-  "A confident second; you can't go wrong here.",
-  "Rounds out the three we'd stake our name on."
-];
+// ---- Atlas visible-set: 5 partners always; non-partners admitted by id number ----
+const PARTNERS     = HOTELS.filter(h => h.partner);
+const NON_PARTNERS = HOTELS.filter(h => !h.partner)
+  .sort((a, b) => +a.id.slice(1) - +b.id.slice(1));  // H6, H7, H8, H9, H10, H11, H12
 
-// ---- Pure ranking pipeline: filter visible set → sort → take top three. ----
-function visibleSet(assistant) {
-  return HOTELS.filter(assistant.visible);
-}
-function topThree(assistant) {
-  return visibleSet(assistant).slice().sort(assistant.rank).slice(0, 3);
+const ATLAS_MIN = 5;
+const ATLAS_MAX = 12;
+
+function atlasVisible(n) {
+  return [...PARTNERS, ...NON_PARTNERS.slice(0, n - ATLAS_MIN)];
 }
 
-// ---- Overlap: hotel ids present in ALL THREE top-three lists. ----
+function atlasTopThree(n) {
+  return atlasVisible(n).slice().sort(ATLAS_RANK).slice(0, 3);
+}
+
+// ---- Vera and Pilot: static ----
+const veraResult  = HOTELS.slice().sort(VERA_RANK).slice(0, 3);
+const pilotResult = HOTELS.filter(h => h.editorial).slice().sort(PILOT_RANK).slice(0, 3);
+
+// ---- Overlap ----
 function computeOverlap(lists) {
-  const [a, b, c] = lists.map(list => new Set(list.map(h => h.id)));
-  let shared = 0;
-  for (const id of a) if (b.has(id) && c.has(id)) shared++;
-  return shared;
+  const [a, b, c] = lists.map(l => new Set(l.map(h => h.id)));
+  let n = 0;
+  for (const id of a) if (b.has(id) && c.has(id)) n++;
+  return n;
 }
 
-// ---- Render ----
-const results = ASSISTANTS.map(topThree);
-const overlap = computeOverlap(results);
+// ---- Asserts: pin baselines so silent data drift trips them ----
+const atlasBaseline   = atlasTopThree(ATLAS_MIN);
+const atlasFullMarket = atlasTopThree(ATLAS_MAX);
 
-// Honesty check: with the embedded data the three lists must not overlap.
-console.assert(overlap === 0, "Expected 0 overlap across the three lists; got " + overlap);
 console.assert(
-  results.map(r => r.map(h => h.id).join(",")).join(" | ") ===
-  "H1,H2,H3 | H8,H9,H10 | H6,H7,H11",
-  "Top-threes drifted from expected ids."
+  atlasBaseline.map(h => h.id).join(",") === "H1,H2,H3",
+  "Atlas partner-only baseline (slider=5) drifted: " + atlasBaseline.map(h => h.id).join(",")
+);
+console.assert(
+  atlasFullMarket.map(h => h.id).join(",") === "H1,H12,H2",
+  "Atlas full-market (slider=12) drifted: " + atlasFullMarket.map(h => h.id).join(",")
+);
+console.assert(
+  [veraResult, pilotResult].map(r => r.map(h => h.id).join(",")).join(" | ") === "H8,H9,H10 | H6,H7,H11",
+  "Vera/Pilot top-threes drifted."
 );
 
-document.getElementById("overlap").textContent = overlap + " of 3";
+const initialOverlap = computeOverlap([atlasBaseline, veraResult, pilotResult]);
+console.assert(initialOverlap === 0, "Expected initial overlap 0; got " + initialOverlap);
 
-const cardsEl = document.getElementById("cards");
-ASSISTANTS.forEach((assistant, i) => {
-  const list = results[i];
-  const seen = visibleSet(assistant).length;
-  const total = HOTELS.length;
+// ---- Helpers ----
+document.getElementById("overlap").textContent = initialOverlap + " of 3";
 
-  const items = list.map((h, j) => `
-    <li>
-      <div class="res-head">
-        <span class="res-rank">${j + 1}.</span>
-        <span class="res-name">${h.name}</span>
-      </div>
-      <div class="res-meta">${h.neighborhood} · €${h.price}/night · ${h.rating.toFixed(1)}★</div>
-      <p class="res-blurb">${BLURBS[j]}</p>
-    </li>
-  `).join("");
-
-  cardsEl.insertAdjacentHTML("beforeend", `
-    <div class="card">
-      <h2>${assistant.name}</h2>
-      <p class="tone">${assistant.tone}</p>
-      <ol class="results">${items}</ol>
-      <div class="boundary" id="boundary-${assistant.key}">
-        <p class="line">Searched: <span>${assistant.sliceLabel} (${seen} of ${total} listed)</span></p>
-        <p class="line">Ranked by: <span>${assistant.ruleLabel}</span></p>
-      </div>
+function hotelItem(h, j) {
+  return `<li>
+    <div class="res-head">
+      <span class="res-rank">${j + 1}.</span>
+      <span class="res-name">${h.name}</span>
     </div>
-  `);
-});
+    <div class="res-meta">${h.neighborhood} · €${h.price}/night · ${h.rating.toFixed(1)}★</div>
+  </li>`;
+}
 
-// ---- Boundary toggle ----
+// ---- Render cards ----
+const cardsEl = document.getElementById("cards");
+
+// Atlas — partner-slice, boundary replaced by live slider
+cardsEl.insertAdjacentHTML("beforeend", `
+  <div class="card">
+    <h2>Atlas</h2>
+    <p class="blurb">These three are the best fit for what you asked — confident picks, ready to book.</p>
+    <ol class="results" id="atlas-results">
+      ${atlasBaseline.map(hotelItem).join("")}
+    </ol>
+    <div class="boundary" id="boundary-atlas">
+      <p class="line">Searched: <span id="atlas-count">${ATLAS_MIN} of ${HOTELS.length} listed</span></p>
+      <div class="slider-wrap">
+        <input type="range" id="atlas-slider"
+          min="${ATLAS_MIN}" max="${ATLAS_MAX}" step="1" value="${ATLAS_MIN}"
+          aria-label="Widen Atlas search boundary">
+        <div class="slider-ticks" aria-hidden="true">
+          <span>partners only</span>
+          <span>full market</span>
+        </div>
+      </div>
+      <p class="line">Ranked by: <span>recommended for you</span></p>
+    </div>
+  </div>
+`);
+
+// Vera — full index, static boundary
+cardsEl.insertAdjacentHTML("beforeend", `
+  <div class="card">
+    <h2>Vera</h2>
+    <p class="blurb">After weighing the options, here's where I'd point you. Clear winners.</p>
+    <ol class="results">
+      ${veraResult.map(hotelItem).join("")}
+    </ol>
+    <div class="boundary" id="boundary-vera">
+      <p class="line">Searched: <span>full index (12 of 12 listed)</span></p>
+      <p class="line">Ranked by: <span>lowest price</span></p>
+    </div>
+  </div>
+`);
+
+// Pilot — editorial selection, static boundary
+cardsEl.insertAdjacentHTML("beforeend", `
+  <div class="card">
+    <h2>Pilot</h2>
+    <p class="blurb">Your top three for Lisbon. Hand-checked and trip-ready.</p>
+    <ol class="results">
+      ${pilotResult.map(hotelItem).join("")}
+    </ol>
+    <div class="boundary" id="boundary-pilot">
+      <p class="line">Searched: <span>editorial selection (6 of 12 listed)</span></p>
+      <p class="line">Ranked by: <span>highest rating</span></p>
+    </div>
+  </div>
+`);
+
+// ---- Boundary toggle (all three cards) ----
 const toggle = document.getElementById("toggle");
 let shown = false;
 toggle.addEventListener("click", () => {
@@ -311,8 +386,19 @@ toggle.addEventListener("click", () => {
   toggle.setAttribute("aria-pressed", String(shown));
 });
 
+// ---- Atlas slider: live re-sort on every change ----
+document.getElementById("atlas-slider").addEventListener("input", function () {
+  const n = +this.value;
+  const list = atlasTopThree(n);
+  document.getElementById("atlas-count").textContent = n + " of " + HOTELS.length + " listed";
+  document.getElementById("atlas-results").innerHTML = list.map(hotelItem).join("");
+  const ov = computeOverlap([list, veraResult, pilotResult]);
+  document.getElementById("overlap").textContent = ov + " of 3";
+});
+
+// ---- Illustrative note (locked copy) ----
 document.getElementById("note").textContent =
-  "Illustrative model. Hotels, prices, and ratings are invented; rankings are deterministic, not live.";
+  "Illustrative model. Hotels, prices, and rankings are invented to show how a hidden search boundary changes the answer — not real listings, and not any real assistant.";
 </script>
 </body>
 </html>

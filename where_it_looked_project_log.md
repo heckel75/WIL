@@ -105,16 +105,20 @@ Each work order is self-contained and contains:
 | D11 | 2026-06-22 | Atlas's slider lives inside the "show the boundary" reveal (not always-visible), same arc as Vera/Pilot. Accepted. | Keeps the default screen to three confident answers + the divergence number; mechanism revealed on inspection, in-family with #28's anti-spectacle stance. |
 | D12 | 2026-06-22 | Slider re-sorts Atlas only at full market (slider=12); positions 5–11 stay H1,H2,H3 because H12 is the only non-partner whose recScore cracks the top three. Accepted as honest/correct for Session 2; intermediate-shift tuning is the Session 3 lead task. | The interaction must feel alive across the drag, not only at the extreme; the fix is dataset tuning, reserved for the buffer session. |
 | D13 | 2026-06-23 | Session 3 runs recon-first: capture the live dataset + rank/visibleSet/computeOverlap/result-render, then the architect designs the shift-timing tuning and walk restore as an in-session follow-up. | The tuning depends on exact recScore values the chat architect can't see in the repo; reporting data to the architect (vs. Code tuning blind) preserves the architect/implementer split (D6). |
+| D14 | 2026-06-23 | Ship the accepted build as-is. Decline the Session-3 dataset shift-timing tuning and defer the walk restore. Accept that the boundary slider re-sorts Atlas only at the final stop (per D12); positions 5–11 stay H1,H2,H3. Vera {H8,H9,H10} and Pilot {H6,H7,H11} keep their current outputs. | The only disjoint-preserving tuning required re-seating one Vera and one Pilot member (changing two cards' visible top-threes); the user chose to preserve the accepted card outputs and ship rather than rework the dataset. The slider still carries the structural claim — widening Atlas to the full market re-sorts its confident "best" while overlap holds 0 of 3 — and drag-aliveness across intermediate stops is an enhancement, not load-bearing for #28's argument. walk likewise deferred as optional post-launch polish. Supersedes the shift-timing fix and walk restore named in the prior Section 7 Next; both remain clean one-order adds later. |
+| D15 | 2026-06-23 | Log/repo reconciliation (resolves Q-A). Remote origin → github.com/heckel75/WIL.git already exists; the prior "no remote yet" claim and the phantom hashes (922dfec/180a77e/1333172, from a since-replaced local repo) are corrected in Section 7 to the real history, and all local commits pushed to origin/master. D9's line-number references superseded — locate --display-face and its consumers by selector/name, not line number (it was at :13, not :9). | The source-of-truth file must not carry false claims; pushing keeps origin authoritative and prevents the stale-checkout drift seen at Session 3 open (local HEAD was 3 commits behind). |
+| D16 | 2026-06-23 | Deploy via GitHub Pages from heckel75/WIL (branch master, root /), serving the single index.html at heckel75.github.io/WIL/. Closes Q2 (repo home = heckel75/WIL, user-confirmed). Q1 (subdomain) parked: the github.io URL is the launch URL; a custom subdomain is a deferred one-step CNAME add (file + DNS) once chosen. No CNAME file created now. | Pages decouples publishing from naming; the artifact is one self-contained file with no build step, so root-of-branch serving suffices, and the github.io URL keeps working after any future custom domain. |
 
 ---
 
 ## 7. State Snapshot (rewrite each session — source of truth)
 
-- **Phase:** Session 3 in progress (buffer), recon-first pass. Display face applied (D10 executed). Live dataset + core functions captured for the architect to design the shift-timing tuning. Tuning + walk-field decision pending the in-session follow-up.
-- **Repo:** Local only, `git init` in `d:\WinProjects\WIL`. Single `index.html` at root plus this log. Commits: Session 1 `922dfec`; Session 2 build `180a77e`; Session 2 log-close `1333172`; Session 3 recon/font `91a6a5b`. No GitHub remote yet (deferred to deploy).
-- **Last action:** `--display-face` swapped to the locked literary serif stack (D10) at index.html:9 — one-line change; the four consumers (h1, .divergence .num, .card h2, .res-rank) unchanged and still render through the variable; all existing console.asserts pass. Current dataset and rank/visibleSet/computeOverlap/result-render reported to the architect for tuning design.
-- **Next:** In-session follow-up — (1) dataset shift-timing tuning: raise a mid-range non-partner's recScore so an intermediate slider width also re-sorts Atlas's top-three (drag feels alive, not dead until the last stop), targeting a headline-overlap 0→1 tick at some width if the numbers allow; (2) restore walk as a displayed-but-unranked field (the stated "walkable" preference no ranker honors); then re-verify and append the Session 3 block. After that: deploy — subdomain (Q1), repo home (Q2), first-comment link prep.
-- **Blocked on:** nothing blocks the follow-up. Before deploy: Q1 (subdomain) and Q2 (repo home), both user-owned.
+- **Phase:** Session 3 complete (ship-as-is). The accepted Session-2 build + Part-1 display face is published; dataset tuning declined (D14) and walk deferred; log/repo reconciled (D15); deployed via GitHub Pages (D16). Only the subdomain (Q1) remains, parked.
+- **Repo:** `git init` in `d:\WinProjects\WIL`, single `index.html` + this log. GitHub remote: origin → github.com/heckel75/WIL.git, synced (local == origin/master). Real history: Session 1 `8c9d1df`; Session 2 `4cdb925`; Session 3 recon/font `91a6a5b` + hash-fill `1c9a300`; Session 3 deploy `<DEPLOY_COMMIT>`. (Earlier-logged hashes `922dfec`/`180a77e`/`1333172` were phantoms from a since-replaced local repo — corrected per D15.)
+- **Deploy status:** Live at https://heckel75.github.io/WIL/ — Pages enabled (branch master, /root); URL confirmed rendering the accepted build.
+- **Last session:** Session 3 — (Part 1) locked display face (D10) + recon; (Part 2) shipped the accepted build as-is — declined the dataset tuning and deferred walk (D14), reconciled the log with the real repo and pushed (D15), and deployed via GitHub Pages from heckel75/WIL (D16). Build unchanged from the accepted Session-2 state: Atlas H1,H2,H3 → (full market) H1,H12,H2; Vera H8,H9,H10; Pilot H6,H7,H11; overlap 0 of 3; four asserts pass.
+- **Next:** When you pick a subdomain (Q1): add a CNAME file with the chosen name + a DNS CNAME record at the divergencelog registrar — one step, github.io URL keeps working. Then first-comment link prep. Optional, post-launch only: the slider shift-timing tuning (D14) and the walk field — each a clean one-order add if you want them.
+- **Blocked on:** nothing. Subdomain (Q1) is parked, not blocking — the artifact is live on the github.io URL.
 
 ---
 
@@ -122,13 +126,14 @@ Each work order is self-contained and contains:
 
 | # | Question | Status | Owner |
 |---|----------|--------|-------|
-| Q1 | Subdomain name: `hotels.divergencelog.com` vs `whereitlooked.divergencelog.com` (ties to post title) vs other | Open | You |
-| Q2 | Repo: new repo, or subfolder of an existing divergencelog repo? | Open | You |
+| Q1 | Subdomain name: `hotels.divergencelog.com` vs `whereitlooked.divergencelog.com` (ties to post title) vs other | Parked, not blocking. Launching on the GitHub Pages URL heckel75.github.io/WIL/; a custom subdomain is a deferred one-step CNAME add once a name is chosen. Still Open | You |
+| Q2 | Repo: new repo, or subfolder of an existing divergencelog repo? | Closed — repo home is heckel75/WIL, user-confirmed 2026-06-23 (D16) | You |
 | Q3 | Fixed query — "Lisbon, 2 nights, walkable, mid-range" placeholder; keep or change? | Tentative | You |
 | Q4 | Three assistant cards confirmed (matches the rhetorical "three options")? | Confirmed: 3; renamed Atlas / Vera / Pilot per D7 | You |
 | Q5 | Does the post #28 opener reflect a real booking moment? Post and demo ship together. | Open | You |
 | Q6 | What headline/display face do existing divergencelog cards use? | Closed — architect-picked self-contained literary serif stack (D10); re-swappable if a real house face is supplied | You |
 | Q7 | Final assistant names — three neutral, non-telegraphing names (D5). | Closed — Atlas / Vera / Pilot (D7) | You |
+| Q-A | GitHub remote vs. log ("no remote") discrepancy + whether to push | Resolved (D15): log corrected to the real remote/history; commits pushed to origin/master | You |
 
 ---
 
@@ -159,3 +164,11 @@ Each work order is self-contained and contains:
 **Architect decisions this session:** Q6 closed by delegation — display face locked to a self-contained literary serif stack (D10), applied in Session 3. Q7 closed — Atlas / Vera / Pilot (D7). Session 2 accepted; publishable gated only on the Session 3 shift-timing nudge.
 
 **Open for You:** deploy questions Q1 (subdomain) and Q2 (repo home).
+
+### Session 3 — display face + ship-as-is + deploy (2026-06-23)
+
+**Built/done:** Part 1 — `--display-face` swapped to the locked literary serif stack (D10), one line; recon of the live dataset and core functions reported to the architect. Part 2 — per the user's ship-as-is decision (D14): no functional/dataset edits; the accepted Session-2 build (Vera {H8,H9,H10}, Pilot {H6,H7,H11}, Atlas re-sorting only at the final slider stop per D12) ships unchanged, with the dataset shift-timing tuning declined and walk deferred. Log/repo reconciled — false "no remote" claim and phantom hashes corrected, all local commits pushed to origin/master (D15). Deployed via GitHub Pages from heckel75/WIL, branch master, root, serving the single index.html (D16); no CNAME file created (subdomain deferred). Deploy state: see Section 7 deploy-status field.
+
+**Verified:** Build renders unchanged; four existing asserts pass (Atlas@5 H1,H2,H3; Atlas@12 H1,H12,H2; Vera|Pilot H8,H9,H10 | H6,H7,H11; overlap 0). No root-absolute path breakage for the /WIL/ subpath. origin == local after push. Deploy commit `<DEPLOY_COMMIT>`.
+
+**Architect decisions this session:** Ship the accepted build as-is; decline the dataset tuning and defer walk (D14). Reconcile the log to the real remote/history and push (D15). Deploy via GitHub Pages from heckel75/WIL; close Q2, park Q1 (D16). Locate CSS by selector, not line number.

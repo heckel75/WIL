@@ -132,8 +132,32 @@
     display: none;
   }
   .boundary.show { display: block; }
+  /* primary: where it stopped + the rule — darkest */
   .boundary .line { margin: 0 0 4px; }
   .boundary .line span { color: var(--ink); font-weight: 600; }
+  /* secondary: provenance — where it started — subordinate, lighter */
+  .boundary .prov {
+    margin: 11px 0 0;
+    font-size: 0.76rem;
+    color: var(--ink-soft);
+    opacity: 0.82;
+    line-height: 1.45;
+  }
+  .boundary .prov span { font-weight: 600; }
+  /* quietest: the un-indexed footer, below the cards */
+  .boundary-footer {
+    display: none;
+    margin: 18px 0 0;
+    padding-top: 14px;
+    border-top: 1px dashed var(--rule);
+    font-size: 0.76rem;
+    color: var(--ink-soft);
+    opacity: 0.72;
+    line-height: 1.55;
+    max-width: 70ch;
+  }
+  .boundary-footer.show { display: block; }
+  .boundary-footer b { font-weight: 600; }
   /* Atlas boundary slider */
   .slider-wrap { margin: 6px 0 4px; }
   input[type="range"] {
@@ -223,7 +247,7 @@
 
   <div class="divergence">
     <span class="label">Overlap across the three "best" lists</span>
-    <span class="num" id="overlap">— of 3</span>
+    <span class="num" id="overlap" aria-live="polite">— of 3</span>
   </div>
 
   <div class="controls">
@@ -232,53 +256,80 @@
 
   <div class="cards" id="cards"></div>
 
+  <p class="boundary-footer" id="boundary-footer"></p>
+
   <p class="note" id="note"></p>
 
 </div>
 
 <script>
-// ---- Data: illustrative model. Invented hotels; not real OTA data. ----
-const HOTELS = [
-  { id:"H1",  name:"Casa Aurelia",            neighborhood:"Alfama",        price:165, rating:4.3, partner:true,  editorial:true,  recScore:95 },
-  { id:"H2",  name:"The Tram House",          neighborhood:"Baixa",         price:158, rating:4.2, partner:true,  editorial:false, recScore:92 },
-  { id:"H3",  name:"Pensão Marquês",          neighborhood:"Chiado",        price:172, rating:4.4, partner:true,  editorial:false, recScore:90 },
-  { id:"H4",  name:"Hotel Lumiar Velho",      neighborhood:"Graça",         price:135, rating:4.1, partner:true,  editorial:true,  recScore:70 },
-  { id:"H5",  name:"Rossio Rooms",            neighborhood:"Baixa",         price:128, rating:4.0, partner:true,  editorial:false, recScore:64 },
-  { id:"H6",  name:"Miradouro Suites",        neighborhood:"Graça",         price:149, rating:4.8, partner:false, editorial:true,  recScore:85 },
-  { id:"H7",  name:"Alfama Quiet House",      neighborhood:"Alfama",        price:142, rating:4.7, partner:false, editorial:true,  recScore:81 },
-  { id:"H8",  name:"Bica Budget Stay",        neighborhood:"Bairro Alto",   price:92,  rating:4.0, partner:false, editorial:false, recScore:60 },
-  { id:"H9",  name:"Intendente Inn",          neighborhood:"Intendente",    price:98,  rating:3.9, partner:false, editorial:false, recScore:55 },
-  { id:"H10", name:"Anjos Apartments",        neighborhood:"Anjos",         price:104, rating:4.1, partner:false, editorial:false, recScore:67 },
-  { id:"H11", name:"Príncipe Real Townhouse", neighborhood:"Príncipe Real", price:176, rating:4.7, partner:false, editorial:true,  recScore:79 },
-  { id:"H12", name:"Cais Garden Hotel",       neighborhood:"Cais do Sodré", price:119, rating:4.4, partner:false, editorial:true,  recScore:94 }
+// ---- Data: illustrative model. Invented hotels and feeds; not real OTA data. ----
+// MARKET = everything that exists. No assistant sees all of it.
+// Each hotel carries the named feeds it is distributed through (its "where it started").
+const MARKET = [
+  { id:"H1",  name:"Estrela Garden Rooms",      neighborhood:"Estrela",          price:96,  rating:4.6, recScore:95, feeds:["GDS feed","direct-connect"] },
+  { id:"H2",  name:"Baixa Tram House",          neighborhood:"Baixa",            price:145, rating:4.0, recScore:70, feeds:["GDS feed"] },
+  { id:"H3",  name:"Chiado Corner Hotel",       neighborhood:"Chiado",           price:132, rating:4.1, recScore:68, feeds:["direct-connect","curated wire"] },
+  { id:"H4",  name:"Marquês Partner Inn",       neighborhood:"Marquês de Pombal", price:118, rating:4.1, recScore:65, feeds:["partner-direct"] },
+  { id:"H5",  name:"Graça Terrace Hotel",       neighborhood:"Graça",            price:139, rating:3.9, recScore:60, feeds:["GDS feed"] },
+  { id:"H6",  name:"Rossio Central Rooms",      neighborhood:"Baixa",            price:152, rating:4.2, recScore:66, feeds:["GDS feed"] },
+  { id:"H7",  name:"Cais Garden Hotel",         neighborhood:"Cais do Sodré",    price:128, rating:4.3, recScore:72, feeds:["GDS feed","curated wire"] },
+  { id:"H8",  name:"Lumiar Velho Hotel",        neighborhood:"Graça",            price:160, rating:3.8, recScore:50, feeds:["GDS feed"] },
+  { id:"H9",  name:"Alameda Suites",            neighborhood:"Alameda",          price:149, rating:4.2, recScore:55, feeds:["GDS feed"] },
+  { id:"H10", name:"Anjos Apartments",          neighborhood:"Anjos",            price:101, rating:4.2, recScore:80, feeds:["curated wire"] },
+  { id:"H11", name:"Intendente Inn",            neighborhood:"Intendente",       price:108, rating:4.0, recScore:62, feeds:["metasearch feed"] },
+  { id:"H12", name:"Príncipe Real Townhouse",   neighborhood:"Príncipe Real",    price:171, rating:4.7, recScore:84, feeds:["curated wire"] },
+  { id:"H13", name:"Miradouro Editorial Suites", neighborhood:"Graça",           price:124, rating:4.5, recScore:70, feeds:["editorial desk"] },
+  { id:"H14", name:"Madragoa Owner's Flat",     neighborhood:"Madragoa",         price:84,  rating:4.4, recScore:88, feeds:["owner-direct"] },
+  { id:"H15", name:"Alfama Quiet House",        neighborhood:"Alfama",           price:119, rating:4.8, recScore:91, feeds:["owner-direct"] }
 ];
+
+// ---- Acquisition: the feeds each assistant subscribes to ("where it started") ----
+// An assistant's INDEX is the slice of MARKET reachable through its feeds. No feed
+// list covers the market; "owner-direct" is carried by no assistant.
+const FEEDS = {
+  atlas: ["partner-direct", "GDS feed", "direct-connect"],
+  vera:  ["GDS feed", "metasearch feed", "curated wire"],
+  pilot: ["editorial desk", "direct-connect", "curated wire"]
+};
+
+const inIndex   = (hotel, feeds) => hotel.feeds.some(f => feeds.includes(f));
+const indexFrom = feeds => MARKET.filter(h => inIndex(h, feeds));
+
+const ATLAS_INDEX = indexFrom(FEEDS.atlas);
+const VERA_INDEX  = indexFrom(FEEDS.vera);
+const PILOT_INDEX = indexFrom(FEEDS.pilot);
+
+// Hotels in the market that no assistant's feeds reach.
+const UNINDEXED = MARKET.filter(h =>
+  !inIndex(h, FEEDS.atlas) && !inIndex(h, FEEDS.vera) && !inIndex(h, FEEDS.pilot)
+);
 
 // ---- Ranking rules (pure functions) ----
 const ATLAS_RANK = (a, b) => (b.recScore - a.recScore) || (a.price - b.price);
 const VERA_RANK  = (a, b) => (a.price - b.price)       || (b.rating - a.rating);
 const PILOT_RANK = (a, b) => (b.rating - a.rating)     || (a.price - b.price);
 
-// ---- Atlas visible-set: 5 partners always; non-partners admitted by id number ----
-const PARTNERS     = HOTELS.filter(h => h.partner);
-const NON_PARTNERS = HOTELS.filter(h => !h.partner)
-  .sort((a, b) => +a.id.slice(1) - +b.id.slice(1));  // H6, H7, H8, H9, H10, H11, H12
+// ---- Atlas: widens the slice it SEARCHES within its own index, never beyond it. ----
+// Acquisition order inside the index; the slider reveals the first n of these.
+const ATLAS_ORDER = ["H2","H3","H4","H5","H6","H7","H8","H9","H1"]
+  .map(id => ATLAS_INDEX.find(h => h.id === id));
 
-const ATLAS_MIN = 5;
-const ATLAS_MAX = 12;
+const ATLAS_MIN = 4;
+const ATLAS_MAX = ATLAS_INDEX.length;   // ceiling = its index (9), strictly < market (15)
 
-function atlasVisible(n) {
-  return [...PARTNERS, ...NON_PARTNERS.slice(0, n - ATLAS_MIN)];
+function atlasSearched(n) {
+  return ATLAS_ORDER.slice(0, n);
 }
-
 function atlasTopThree(n) {
-  return atlasVisible(n).slice().sort(ATLAS_RANK).slice(0, 3);
+  return atlasSearched(n).slice().sort(ATLAS_RANK).slice(0, 3);
 }
 
-// ---- Vera and Pilot: static ----
-const veraResult  = HOTELS.slice().sort(VERA_RANK).slice(0, 3);
-const pilotResult = HOTELS.filter(h => h.editorial).slice().sort(PILOT_RANK).slice(0, 3);
+// ---- Vera and Pilot: search their whole index (static) ----
+const veraResult  = VERA_INDEX.slice().sort(VERA_RANK).slice(0, 3);
+const pilotResult = PILOT_INDEX.slice().sort(PILOT_RANK).slice(0, 3);
 
-// ---- Overlap ----
+// ---- Overlap (hotels common to all three "best" lists) ----
 function computeOverlap(lists) {
   const [a, b, c] = lists.map(l => new Set(l.map(h => h.id)));
   let n = 0;
@@ -287,24 +338,42 @@ function computeOverlap(lists) {
 }
 
 // ---- Asserts: pin baselines so silent data drift trips them ----
-const atlasBaseline   = atlasTopThree(ATLAS_MIN);
-const atlasFullMarket = atlasTopThree(ATLAS_MAX);
+const ids = r => r.map(h => h.id).join(",");
 
 console.assert(
-  atlasBaseline.map(h => h.id).join(",") === "H1,H2,H3",
-  "Atlas partner-only baseline (slider=5) drifted: " + atlasBaseline.map(h => h.id).join(",")
+  MARKET.length === 15 && ATLAS_INDEX.length === 9 && VERA_INDEX.length === 11 && PILOT_INDEX.length === 6,
+  "Boundary sizes drifted: market=" + MARKET.length + " atlas=" + ATLAS_INDEX.length +
+  " vera=" + VERA_INDEX.length + " pilot=" + PILOT_INDEX.length
 );
 console.assert(
-  atlasFullMarket.map(h => h.id).join(",") === "H1,H12,H2",
-  "Atlas full-market (slider=12) drifted: " + atlasFullMarket.map(h => h.id).join(",")
+  ids(UNINDEXED.slice()) === "H14,H15",
+  "Un-indexed set drifted: " + ids(UNINDEXED.slice())
 );
 console.assert(
-  [veraResult, pilotResult].map(r => r.map(h => h.id).join(",")).join(" | ") === "H8,H9,H10 | H6,H7,H11",
-  "Vera/Pilot top-threes drifted."
+  ids(atlasTopThree(ATLAS_MIN)) === "H2,H3,H4",
+  "Atlas core baseline (slider=4) drifted: " + ids(atlasTopThree(ATLAS_MIN))
+);
+console.assert(
+  ids(atlasTopThree(5)) === "H2,H3,H6",
+  "Atlas slider=5 drifted: " + ids(atlasTopThree(5))
+);
+console.assert(
+  ids(atlasTopThree(6)) === "H7,H2,H3",
+  "Atlas slider=6 drifted: " + ids(atlasTopThree(6))
+);
+console.assert(
+  ids(atlasTopThree(ATLAS_MAX)) === "H1,H7,H2",
+  "Atlas whole-index (slider=9) drifted: " + ids(atlasTopThree(ATLAS_MAX))
+);
+console.assert(
+  ids(veraResult) + " | " + ids(pilotResult) === "H1,H10,H11 | H12,H1,H13",
+  "Vera/Pilot top-threes drifted: " + ids(veraResult) + " | " + ids(pilotResult)
 );
 
-const initialOverlap = computeOverlap([atlasBaseline, veraResult, pilotResult]);
+const initialOverlap = computeOverlap([atlasTopThree(ATLAS_MIN), veraResult, pilotResult]);
+const widenedOverlap = computeOverlap([atlasTopThree(ATLAS_MAX), veraResult, pilotResult]);
 console.assert(initialOverlap === 0, "Expected initial overlap 0; got " + initialOverlap);
+console.assert(widenedOverlap === 1, "Expected widened overlap 1; got " + widenedOverlap);
 
 // ---- Helpers ----
 document.getElementById("overlap").textContent = initialOverlap + " of 3";
@@ -319,34 +388,37 @@ function hotelItem(h, j) {
   </li>`;
 }
 
+const M = MARKET.length;
+
 // ---- Render cards ----
 const cardsEl = document.getElementById("cards");
 
-// Atlas — partner-slice, boundary replaced by live slider
+// Atlas — searches a slice of its index; the slider widens that slice (never past its index).
 cardsEl.insertAdjacentHTML("beforeend", `
   <div class="card">
     <h2>Atlas</h2>
     <p class="blurb">These three are the best fit for what you asked — confident picks, ready to book.</p>
     <ol class="results" id="atlas-results">
-      ${atlasBaseline.map(hotelItem).join("")}
+      ${atlasTopThree(ATLAS_MIN).map(hotelItem).join("")}
     </ol>
     <div class="boundary" id="boundary-atlas">
-      <p class="line">Searched: <span id="atlas-count">${ATLAS_MIN} of ${HOTELS.length} listed</span></p>
+      <p class="line">Searched: <span id="atlas-count">${ATLAS_MIN} of ${ATLAS_MAX} in its index</span></p>
       <div class="slider-wrap">
         <input type="range" id="atlas-slider"
           min="${ATLAS_MIN}" max="${ATLAS_MAX}" step="1" value="${ATLAS_MIN}"
-          aria-label="Widen Atlas search boundary">
+          aria-label="Widen Atlas search within its index">
         <div class="slider-ticks" aria-hidden="true">
-          <span>partners only</span>
-          <span>full market</span>
+          <span>core</span>
+          <span>whole index</span>
         </div>
       </div>
       <p class="line">Ranked by: <span>recommended for you</span></p>
+      <p class="prov">Index: <span>${ATLAS_INDEX.length} of ${M} in the market</span>, from ${FEEDS.atlas.join(", ")}</p>
     </div>
   </div>
 `);
 
-// Vera — full index, static boundary
+// Vera — searches its whole index, but that index is broad, not the market.
 cardsEl.insertAdjacentHTML("beforeend", `
   <div class="card">
     <h2>Vera</h2>
@@ -355,13 +427,14 @@ cardsEl.insertAdjacentHTML("beforeend", `
       ${veraResult.map(hotelItem).join("")}
     </ol>
     <div class="boundary" id="boundary-vera">
-      <p class="line">Searched: <span>full index (12 of 12 listed)</span></p>
+      <p class="line">Searched: <span>all ${VERA_INDEX.length} in its index</span></p>
       <p class="line">Ranked by: <span>lowest price</span></p>
+      <p class="prov">Index: <span>broad — ${VERA_INDEX.length} of ${M} in the market</span>, from ${FEEDS.vera.join(", ")}</p>
     </div>
   </div>
 `);
 
-// Pilot — editorial selection, static boundary
+// Pilot — searches its whole index; a small, curated index.
 cardsEl.insertAdjacentHTML("beforeend", `
   <div class="card">
     <h2>Pilot</h2>
@@ -370,27 +443,47 @@ cardsEl.insertAdjacentHTML("beforeend", `
       ${pilotResult.map(hotelItem).join("")}
     </ol>
     <div class="boundary" id="boundary-pilot">
-      <p class="line">Searched: <span>editorial selection (6 of 12 listed)</span></p>
+      <p class="line">Searched: <span>all ${PILOT_INDEX.length} in its index</span></p>
       <p class="line">Ranked by: <span>highest rating</span></p>
+      <p class="prov">Index: <span>${PILOT_INDEX.length} of ${M} in the market</span>, from ${FEEDS.pilot.join(", ")}</p>
     </div>
   </div>
 `);
 
-// ---- Boundary toggle (all three cards) ----
+// ---- Quiet footer: the market hotels no assistant indexed ----
+const cheapest = MARKET.slice().sort((a, b) => a.price - b.price)[0];
+const topRated = MARKET.slice().sort((a, b) => b.rating - a.rating)[0];
+console.assert(
+  UNINDEXED.some(h => h.id === cheapest.id) && UNINDEXED.some(h => h.id === topRated.id),
+  "Expected the cheapest and highest-rated market hotels to be un-indexed."
+);
+const footerNames = UNINDEXED.map(h => {
+  let tag = "";
+  if (h.id === cheapest.id) tag = ` (€${h.price} — the cheapest in the market)`;
+  else if (h.id === topRated.id) tag = ` (${h.rating.toFixed(1)}★ — the highest-rated)`;
+  return `<b>${h.name}</b>${tag}`;
+}).join(" and ");
+document.getElementById("boundary-footer").innerHTML =
+  "In the market, indexed by no assistant: " + footerNames +
+  ". Neither sits in any assistant's index, so no ranking — and no widening of a slider — can surface them.";
+
+// ---- Boundary toggle (all three cards + the footer) ----
 const toggle = document.getElementById("toggle");
+const footerEl = document.getElementById("boundary-footer");
 let shown = false;
 toggle.addEventListener("click", () => {
   shown = !shown;
   document.querySelectorAll(".boundary").forEach(el => el.classList.toggle("show", shown));
+  footerEl.classList.toggle("show", shown);
   toggle.textContent = shown ? "Hide the boundary" : "Show the boundary";
   toggle.setAttribute("aria-pressed", String(shown));
 });
 
-// ---- Atlas slider: live re-sort on every change ----
+// ---- Atlas slider: live re-sort within its index ----
 document.getElementById("atlas-slider").addEventListener("input", function () {
   const n = +this.value;
   const list = atlasTopThree(n);
-  document.getElementById("atlas-count").textContent = n + " of " + HOTELS.length + " listed";
+  document.getElementById("atlas-count").textContent = n + " of " + ATLAS_MAX + " in its index";
   document.getElementById("atlas-results").innerHTML = list.map(hotelItem).join("");
   const ov = computeOverlap([list, veraResult, pilotResult]);
   document.getElementById("overlap").textContent = ov + " of 3";
@@ -398,7 +491,7 @@ document.getElementById("atlas-slider").addEventListener("input", function () {
 
 // ---- Illustrative note (locked copy) ----
 document.getElementById("note").textContent =
-  "Illustrative model. Hotels, prices, and rankings are invented to show how a hidden search boundary changes the answer — not real listings, and not any real assistant.";
+  "Illustrative model. Hotels, feeds, prices, and rankings are invented to show how a hidden search boundary changes the answer — not real listings, and not any real assistant.";
 </script>
 </body>
 </html>

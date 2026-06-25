@@ -113,6 +113,7 @@ Each work order is self-contained and contains:
 | D19 | 2026-06-23 | Progressive slider churn. Because the acquisition rework reseats the dataset, Atlas's slider is re-tuned so its top three shifts at multiple intermediate notches, not only at the index ceiling. | The interaction must feel alive across the drag; the dataset was being reseated anyway. Supersedes the D12/D14 acceptance of single-stop churn. |
 | D20 | 2026-06-23 | Headline relabelled from "Overlap across the three 'best' lists" to "Hotels on all three lists" to state the three-way measure explicitly. | Task 7's live 0→1 tick puts a shared hotel in two default lists; the precise label keeps the headline honest against visible pairwise overlap and avoids a nitpickable absolute. Copy only; the overlap asserts already measure three-way agreement. |
 | D21 | 2026-06-25 | Copy/layout pass for sharing: top metric relabelled to "Hotels appearing in all three answers" (bare integer, tick preserved); skim subhead added; "illustrative model" line raised to the top; un-indexed note promoted to a bordered callout above the cards; button left/clarified to describe the whole panel. | External feedback flagged that "0 of 3" misreads as "0 of 3 hotels", invented data was seen before the disclaimer, and the page's strongest point (the un-indexed footer) sat in the quietest type. Copy/layout only; no data, ranking, or assert changes. |
+| D22 | 2026-06-23 | Custom domain wil.divergencelog.com. CNAME file (content "wil.divergencelog.com") committed to repo root; OVH DNS CNAME record wil → heckel75.github.io. added manually; Pages Enforce HTTPS to be enabled once the cert provisions. Resolves Q1. | Moves the artifact onto the on-brand divergencelog subdomain; the github.io URL keeps working and redirects. CNAME kept in version control so local==origin pushes do not clobber it. |
 
 ---
 
@@ -120,7 +121,7 @@ Each work order is self-contained and contains:
 
 - **Phase:** Session 4 complete — acquisition layer (three-boundary model) added and deployed; slider churn now progressive; post and demo realigned to the two invisible ends (where it started / where it stopped).
 - **Repo:** `heckel75/WIL` (master), origin synced (local == origin/master). Session 4 commit 16d61db.
-- **Deploy status:** Live at https://heckel75.github.io/WIL/ — Pages auto-rebuilt from master/root; new build confirmed rendering.
+- **Deploy status:** CNAME for wil.divergencelog.com committed; OVH DNS CNAME added; awaiting DNS propagation + HTTPS cert. github.io URL still live and will redirect once the custom domain is active. (flip to "Live at https://wil.divergencelog.com, Enforce HTTPS on" once you confirm it renders).
 - **Last session:** Session 4 — MARKET of 15 hotels; per-assistant indexes from feeds (partner-direct / GDS feed / direct-connect for Atlas — GDS feed / metasearch feed / curated wire for Vera — editorial desk / direct-connect / curated wire for Pilot); indexed by no assistant: Madragoa Owner's Flat + Alfama Quiet House (incl. Madragoa Owner's Flat, €84 the cheapest in the market, which would have topped Vera's lowest-price rule; Alfama Quiet House at 4.8★ would have topped Pilot's highest-rating rule); Atlas slider ceiling = its index (9); progressive churn at notches 5, 6, 9; overlap (moved 0→1 at full widen); nine asserts updated and passing.
 - **Next:** subdomain (Q1) when chosen — CNAME file + DNS record; then first-comment link prep. Walk field still optional/deferred.
 - **Blocked on:** nothing. Q1 parked, not blocking — artifact is live on the github.io URL.
@@ -131,7 +132,7 @@ Each work order is self-contained and contains:
 
 | # | Question | Status | Owner |
 |---|----------|--------|-------|
-| Q1 | Subdomain name: `hotels.divergencelog.com` vs `whereitlooked.divergencelog.com` (ties to post title) vs other | Parked, not blocking. Launching on the GitHub Pages URL heckel75.github.io/WIL/; a custom subdomain is a deferred one-step CNAME add once a name is chosen. Still Open | You |
+| Q1 | Subdomain name: `hotels.divergencelog.com` vs `whereitlooked.divergencelog.com` (ties to post title) vs other | Closed — wil.divergencelog.com (D22) | You |
 | Q2 | Repo: new repo, or subfolder of an existing divergencelog repo? | Closed — repo home is heckel75/WIL, user-confirmed 2026-06-23 (D16) | You |
 | Q3 | Fixed query — "Lisbon, 2 nights, walkable, mid-range" placeholder; keep or change? | Tentative | You |
 | Q4 | Three assistant cards confirmed (matches the rhetorical "three options")? | Confirmed: 3; renamed Atlas / Vera / Pilot per D7 | You |
@@ -195,3 +196,5 @@ Each work order is self-contained and contains:
 **Follow-up:** overlap headline relabelled to "Hotels on all three lists" (D20), copy-only.
 
 **Follow-up 2:** pre-share copy/layout pass (D21) — metric relabel, skim subhead, top disclaimer, un-indexed callout promoted above cards.
+
+**Follow-up 3:** custom domain — CNAME file (wil.divergencelog.com) committed (D22); OVH DNS CNAME wil → heckel75.github.io. added; Pages HTTPS pending cert.

@@ -112,6 +112,7 @@ Each work order is self-contained and contains:
 | D18 | 2026-06-23 | Reopen D14. Model three boundaries, not two: add an acquisition layer. Introduce a MARKET larger than any assistant's index; each assistant draws a distinct INDEX from named invented feeds; ≥2 market hotels are indexed by no assistant (≥1 a strong option that would top some assistant's rule if indexed). The boundary reveal now exposes acquisition (where it started) alongside search (where it stopped) and ranking, all under the single existing toggle. | The post was reframed around the two invisible ends — where it started and where it stopped — so the demo must show both. "Ship as-is" (D14) was decided before the acquisition idea existed and does not bind against it. Supersedes D14's ship-as-is. |
 | D19 | 2026-06-23 | Progressive slider churn. Because the acquisition rework reseats the dataset, Atlas's slider is re-tuned so its top three shifts at multiple intermediate notches, not only at the index ceiling. | The interaction must feel alive across the drag; the dataset was being reseated anyway. Supersedes the D12/D14 acceptance of single-stop churn. |
 | D20 | 2026-06-23 | Headline relabelled from "Overlap across the three 'best' lists" to "Hotels on all three lists" to state the three-way measure explicitly. | Task 7's live 0→1 tick puts a shared hotel in two default lists; the precise label keeps the headline honest against visible pairwise overlap and avoids a nitpickable absolute. Copy only; the overlap asserts already measure three-way agreement. |
+| D21 | 2026-06-25 | Copy/layout pass for sharing: top metric relabelled to "Hotels appearing in all three answers" (bare integer, tick preserved); skim subhead added; "illustrative model" line raised to the top; un-indexed note promoted to a bordered callout above the cards; button left/clarified to describe the whole panel. | External feedback flagged that "0 of 3" misreads as "0 of 3 hotels", invented data was seen before the disclaimer, and the page's strongest point (the un-indexed footer) sat in the quietest type. Copy/layout only; no data, ranking, or assert changes. |
 
 ---
 
@@ -192,3 +193,5 @@ Each work order is self-contained and contains:
 **Open for You:** Q1 (subdomain) and Q5 (the post opener must reflect a real booking moment — post and demo ship together).
 
 **Follow-up:** overlap headline relabelled to "Hotels on all three lists" (D20), copy-only.
+
+**Follow-up 2:** pre-share copy/layout pass (D21) — metric relabel, skim subhead, top disclaimer, un-indexed callout promoted above cards.

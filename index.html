@@ -47,7 +47,7 @@
     border-top: 1px solid var(--rule);
     border-bottom: 1px solid var(--rule);
     padding: 20px 0;
-    margin: 0 0 40px;
+    margin: 0 0 10px;
   }
   .divergence .label {
     display: block;
@@ -211,6 +211,25 @@
     letter-spacing: 0.02em;
   }
   .slider-wrap + .line { margin-top: 10px; }
+  .top-note {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin: 0 0 22px;
+  }
+  .metric-sub {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin: 0 0 32px;
+  }
+  .unindexed-callout {
+    border: 1px solid var(--ink-soft);
+    padding: 14px 18px;
+    margin: 0 0 28px;
+    font-size: 0.88rem;
+    color: var(--ink);
+    line-height: 1.55;
+    max-width: 60ch;
+  }
   .note {
     margin: 44px 0 0;
     font-size: 0.8rem;
@@ -244,15 +263,19 @@
 
   <p class="query">Query &nbsp;·&nbsp; <strong>Lisbon — 2 nights, walkable, mid-range.</strong></p>
   <h1>Three assistants. One question. Three different "best" answers.</h1>
+  <p class="top-note">Illustrative model. Not real hotels, rates, or assistants.</p>
 
   <div class="divergence">
-    <span class="label">Hotels on all three lists</span>
-    <span class="num" id="overlap" aria-live="polite">— of 3</span>
+    <span class="label">Hotels appearing in all three answers</span>
+    <span class="num" id="overlap" aria-live="polite">—</span>
   </div>
+  <p class="metric-sub">Same query. Three indexes. Three rankings.</p>
 
   <div class="controls">
-    <button class="toggle" id="toggle" aria-pressed="false">Show the boundary</button>
+    <button class="toggle" id="toggle" aria-pressed="false">Show how each answer was built</button>
   </div>
+
+  <div class="unindexed-callout">Outside every assistant's index: the cheapest option and the highest-rated option in the market. No ranking rule can surface what was never acquired.</div>
 
   <div class="cards" id="cards"></div>
 
@@ -376,7 +399,7 @@ console.assert(initialOverlap === 0, "Expected initial overlap 0; got " + initia
 console.assert(widenedOverlap === 1, "Expected widened overlap 1; got " + widenedOverlap);
 
 // ---- Helpers ----
-document.getElementById("overlap").textContent = initialOverlap + " of 3";
+document.getElementById("overlap").textContent = String(initialOverlap);
 
 function hotelItem(h, j) {
   return `<li>
@@ -475,7 +498,7 @@ toggle.addEventListener("click", () => {
   shown = !shown;
   document.querySelectorAll(".boundary").forEach(el => el.classList.toggle("show", shown));
   footerEl.classList.toggle("show", shown);
-  toggle.textContent = shown ? "Hide the boundary" : "Show the boundary";
+  toggle.textContent = shown ? "Hide how each answer was built" : "Show how each answer was built";
   toggle.setAttribute("aria-pressed", String(shown));
 });
 
@@ -486,7 +509,7 @@ document.getElementById("atlas-slider").addEventListener("input", function () {
   document.getElementById("atlas-count").textContent = n + " of " + ATLAS_MAX + " in its index";
   document.getElementById("atlas-results").innerHTML = list.map(hotelItem).join("");
   const ov = computeOverlap([list, veraResult, pilotResult]);
-  document.getElementById("overlap").textContent = ov + " of 3";
+  document.getElementById("overlap").textContent = String(ov);
 });
 
 // ---- Illustrative note (locked copy) ----
